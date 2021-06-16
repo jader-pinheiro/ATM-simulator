@@ -9,7 +9,7 @@ class Client extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['organization_id', 'name', 'email', 'cpf_cnpj', 'rg', 'type_client', 'obs', 'status'];
+    protected $fillable = ['name', 'cpf', 'birth_date'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\hasMany

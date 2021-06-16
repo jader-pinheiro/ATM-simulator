@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreClientRequest;
+use App\Models\Client;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
@@ -13,7 +17,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        return Client::all();
     }
 
     /**
@@ -34,7 +38,19 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+        $validator = Validator::make($request->all(), [
+            'cpf' => 'required|max:11'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => "Valor incorreto para o campo CPF",
+            ], 500);
+        }
+
+        return Client::create($request->toArray());
     }
 
     /**
@@ -45,7 +61,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        //
+        return Client::findOrfail($id);
     }
 
     /**
@@ -68,7 +84,11 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return  Client::where('id', $id)
+            ->update([
+                'name' => $request->name,
+                'birth_date' => $request->birth_date
+            ]);
     }
 
     /**
